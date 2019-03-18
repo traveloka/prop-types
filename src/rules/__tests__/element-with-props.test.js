@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ElementWithProps from '../element-with-props';
 
 import { assertPass, assertFail } from './testUtil';
@@ -63,5 +64,31 @@ describe('validate inner props', () => {
 
   test('correct inner props with additional props', () => {
     assertPass(<A b={<B x="y" z="a" b="c" />} />, propTypes);
+  });
+});
+
+describe('support other prop-types', () => {
+  test('official prop-types', () => {
+    const propTypes = {
+      b: ElementWithProps(B, {
+        x: PropTypes.number.isRequired,
+        y: PropTypes.string,
+      }),
+    };
+
+    // props y is not required
+    assertPass(<A b={<B x={1} />} />, propTypes);
+    assertPass(<A b={<B x={1} y="2" />} />, propTypes);
+
+    // x is required
+    assertFail(<A b={<B />} />, propTypes);
+    assertFail(<A b={<B y={2} />} />, propTypes);
+    assertFail(<A b={<B y="2" />} />, propTypes);
+
+    // either prop is incorrect
+    assertFail(<A b={<B x="1" />} />, propTypes);
+    assertFail(<A b={<B x={1} y={2} />} />, propTypes);
+    assertFail(<A b={<B x="1" y={2} />} />, propTypes);
+    assertFail(<A b={<B x="1" y="2" />} />, propTypes);
   });
 });

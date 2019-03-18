@@ -19,7 +19,7 @@ const B = () => null;
 const A = () => null;
 
 A.propTypes = {
-  b: ElementWithProps(B, { x: 'y' })
+  b: ElementWithProps(B, { x: 'y', other: PropTypes.string })
 }
 
 // fail
