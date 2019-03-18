@@ -6,10 +6,21 @@ type AnyProps = {
   [key: string]: any;
 };
 
+type PropTypeValidator = (
+  props: AnyProps,
+  propName: string,
+  componentName: string,
+  ...rest: any[]
+) => void | Error;
+
+type RequiredProps = {
+  [key: string]: string | number | PropTypeValidator;
+};
+
 export default function elementWithProps(
   Component: React.ComponentType<any>,
-  requiredProps: AnyProps
-) {
+  requiredProps: RequiredProps
+): PropTypeValidator {
   const requiredComponentName = getComponentName(Component);
   function validator(
     props: AnyProps,
@@ -17,7 +28,7 @@ export default function elementWithProps(
     componentName: string,
     ...rest: any[]
   ) {
-    const propValue = props[propName];
+    const propValue: React.ReactElement<AnyProps> = props[propName];
     if (!propValue) {
       throw new TypeError(
         `${componentName} must provide \`${propName}\` prop which equal to react element ${requiredComponentName}, e.g: <${componentName} ${propName}={<${requiredComponentName} />} />`
@@ -44,6 +55,7 @@ export default function elementWithProps(
           requiredComponentName,
           ...rest
         );
+
         if (result) {
           throw result;
         }
