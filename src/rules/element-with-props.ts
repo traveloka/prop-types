@@ -29,7 +29,7 @@ export default function elementWithProps(
     Object.keys(requiredProps).forEach(requiredProp => {
       const innerValue = propValue.props[requiredProp];
       const expectedValue = requiredProps[requiredProp];
-      if (!expectedValue) {
+      if (!innerValue) {
         throw new Error(
           `${requiredComponentName} must be rendered with props \`${requiredProp}\`, e.g: <${componentName} ${propName}={<${requiredComponentName} ${requiredProp}=${formatProps(
             expectedValue
@@ -39,7 +39,7 @@ export default function elementWithProps(
 
       if (innerValue !== expectedValue) {
         throw new Error(
-          `${requiredComponentName} must be rendered with prop \`${requiredProp}\`=${formatProps(
+          `${requiredComponentName} must be rendered with prop ${requiredProp}=${formatProps(
             expectedValue
           )} but found ${formatProps(innerValue)}`
         );

@@ -10,6 +10,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup -c rollup.config.js",
+    "test": "jest --coverage",
     "format": "prettier \"**/*.{ts,md}\" --write",
     "check-format": "prettier \"**/*.{ts,md}\" --check"
   },
@@ -18,11 +19,20 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
+  "jest": {
+    "testRegex": "__tests__/.*.test\\.js$"
+  },
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
     "@types/react": "^16.8.8",
     "husky": "^1.3.1",
+    "jest": "^24.5.0",
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0",
+    "react": "^16.8.4",
     "rollup": "^1.6.0",
     "rollup-plugin-typescript2": "^0.20.1",
     "typescript": "^3.3.3333"
