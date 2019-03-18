@@ -30,5 +30,15 @@ jobs:
       # make sure prettier is run
       - run: yarn check-format
 
+      # unit test
+      - run: yarn test --runInBand --ci
+
       # make sure we can build it
       - run: yarn build
+
+      # upload test coverage
+      - run:
+          name: Upload coverage
+          command: |
+            yarn global add codecov
+            codecov
