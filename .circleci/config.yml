@@ -37,8 +37,4 @@ jobs:
       - run: yarn build
 
       # upload test coverage
-      - run:
-          name: Upload coverage
-          command: |
-            yarn global add codecov
-            codecov
+      - run: npx codecov
