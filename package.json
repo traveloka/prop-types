@@ -2,6 +2,9 @@
   "name": "@traveloka/prop-types",
   "version": "0.1.0",
   "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "repository": "git@github.com:traveloka/prop-types.git",
   "author": "Fatih Kalifa <fatihkalifa@gmail.com>",
   "license": "MIT",
