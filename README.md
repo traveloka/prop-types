@@ -1,6 +1,6 @@
 # prop-types
 
-[![CircleCI](https://circleci.com/gh/traveloka/prop-types.svg?style=svg)](https://circleci.com/gh/traveloka/prop-types)
+[![CircleCI](https://circleci.com/gh/traveloka/prop-types.svg?style=svg)](https://circleci.com/gh/traveloka/prop-types) [![codecov](https://codecov.io/gh/traveloka/prop-types/branch/master/graph/badge.svg)](https://codecov.io/gh/traveloka/prop-types)
 
 > Custom prop-types used in Traveloka project for react prop validation that can't be covered using compile-time typecheck (such as Flow/Typescript)
 
@@ -25,6 +25,7 @@ A.propTypes = {
 // fail
 <A b={<B />} />
 <A b={<B x='x' />} />
+<A b={<B y='x' />} />
 
 // pass
 <A b={<B x='y' />} />
