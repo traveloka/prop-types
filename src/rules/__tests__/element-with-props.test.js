@@ -5,13 +5,8 @@ import ElementWithProps from '../element-with-props';
 import { assertPass, assertFail } from './testUtil';
 
 const A = () => null;
-A.displayName = 'TestComponent';
-
 const B = () => null;
-B.displayName = 'CorrectComponent';
-
 const C = () => null;
-C.displayName = 'WrongComponent';
 
 const propTypes = {
   b: ElementWithProps(B, { x: 'y' }),
@@ -65,10 +60,36 @@ describe('validate inner props', () => {
   test('correct inner props with additional props', () => {
     assertPass(<A b={<B x="y" z="a" b="c" />} />, propTypes);
   });
+
+  test('boolean inner props value', () => {
+    assertPass(<A b={<B x />} />, { b: ElementWithProps(B, { x: true }) });
+    assertPass(<A b={<B x={false} />} />, {
+      b: ElementWithProps(B, { x: false }),
+    });
+
+    assertFail(<A b={<B x />} />, { b: ElementWithProps(B, { x: false }) });
+    assertFail(<A b={<B x={false} />} />, {
+      b: ElementWithProps(B, { x: true }),
+    });
+  });
+
+  test('null inner props value', () => {
+    const nullPropTypes = { b: ElementWithProps(B, { x: null }) };
+
+    assertPass(<A b={<B x={null} />} />, nullPropTypes);
+
+    assertFail(<A b={<B />} />, nullPropTypes);
+    assertFail(<A b={<B x />} />, nullPropTypes);
+
+    // falsy
+    assertFail(<A b={<B x={false} />} />, nullPropTypes);
+    assertFail(<A b={<B x={0} />} />, nullPropTypes);
+    assertFail(<A b={<B x="" />} />, nullPropTypes);
+  });
 });
 
 describe('support other prop-types', () => {
-  test('official prop-types', () => {
+  test('native prop-types', () => {
     const propTypes = {
       b: ElementWithProps(B, {
         x: PropTypes.number.isRequired,
@@ -76,7 +97,7 @@ describe('support other prop-types', () => {
       }),
     };
 
-    // props y is not required
+    // y is optional
     assertPass(<A b={<B x={1} />} />, propTypes);
     assertPass(<A b={<B x={1} y="2" />} />, propTypes);
 

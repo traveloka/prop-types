@@ -3,8 +3,12 @@ export default function formatProp(value: any) {
     return `"${value}"`;
   }
 
-  if (typeof value === 'number' || value == null) {
+  if (typeof value === 'number') {
     return value;
+  }
+
+  if (value == null || typeof value === 'boolean') {
+    return `{${value}}`;
   }
 
   return JSON.stringify(value);
